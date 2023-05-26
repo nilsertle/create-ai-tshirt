@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .navbar-active .hamburger div:first-child {
+    @apply rotate-45 translate-y-1.5;
+    }
+    .navbar-active .hamburger div:last-child {
+    @apply -rotate-45 -translate-y-1;
+    }
+    .navbar-active div:first-child div:first-child div:last-child{
+        @apply block lg:flex
+    }
+}
+
+
+/* [data-rsbs-content="true"] {
+    @apply h-full;
+} */
+
+[data-rsbs-scroll="true"] {
+    @apply bg-lightGray;
+}
+
+[data-rsbs-header="true"] {
+    @apply bg-lightGray before:!bg-gray-400;
+}
+
+[data-rsbs-footer="true"] {
+    @apply bg-white !p-0 !shadow-none rounded-2xl;
+}

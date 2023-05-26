@@ -1,0 +1,76 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: "../src/"
+        exclude:
+            - "../src/DependencyInjection/"
+            - "../src/Entity/"
+            - "../src/Kernel.php"
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    App\State\UserPasswordHasher:
+        bind:
+            $processor: "@api_platform.doctrine.orm.state.persist_processor"
+
+    App\State\SetOwnerProcessor:
+         bind:
+            $processor: "@api_platform.doctrine.orm.state.persist_processor"
+    
+    App\State\UpdateChosenImagesProcessor:
+        bind:
+            $persistProcessor: '@api_platform.doctrine.orm.state.persist_processor'
+
+    App\Controller\GetMediaObjectController:
+        public: true
+    App\Controller\CreateMediaObjectController:
+        public: true
+
+    # AsyncAws\S3\S3Client:
+    #     arguments:
+    #         - region: "%env(AWS_S3_REGION)%"
+    #           accessKeyId: "%env(AWS_S3_ACCESS_KEY_ID)%"
+    #           accessKeySecret: "%env(AWS_S3_ACCESS_KEY_SECRET)%"
+
+    App\Service\SpacesHelper:
+        arguments:
+            $spacesKey: '%env(SPACES_KEY)%'
+            $spacesSecret: '%env(SPACES_SECRET)%'
+    
+    App\Service\StripeHelper:
+        arguments:
+            $stripeSecret: '%env(STRIPE_SECRET)%'
+            $domain: '%env(SERVER_NAME_DOMAIN_PROD)%'
+    
+    digitalocean_spaces_client:
+        class: 'AsyncAws\S3\S3Client'
+        arguments:
+            -  endpoint: '%env(DIGITALOCEAN_SPACES_ENDPOINT)%'
+               accessKeyId: '%env(DIGITALOCEAN_SPACES_ID)%'
+               accessKeySecret: '%env(DIGITALOCEAN_SPACES_SECRET)%'
+
+    # printful_api_client:
+    #     class: 'Printful\PrintfulApiClient'
+    #     arguments:
+    #         - '%env(PRINTFUL_API_KEY)%'
+
+    # Printful\PrintfulApiClient: '@printful_api_client'
+
+    App\Service\PrintfulHelper:
+        arguments:
+            $printfulSecret: '%env(PRINTFUL_API_KEY)%'
+
+

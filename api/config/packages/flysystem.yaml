@@ -1,0 +1,32 @@
+flysystem:
+    storages:
+        default.storage:
+            adapter: "local"
+            options:
+                directory: "%kernel.project_dir%/var/storage/default"
+        # s3MediaObject:
+        #     adapter: "League\Flysystem\AwsS3v3\AwsS3v3Adapter"
+        #     options:
+        #         bucket: "create-image-upload"
+        #         prefix: "media_object"
+        #         region: "us-east-1"
+        #         credentials:
+        #             key: "%env(SPACES_KEY)%"
+        #             secret: "%env(SECRET_KEY)%"
+        #         endpoint: "https://fra1.digitaloceanspaces.com"
+        #         version: "latest"
+        #         root: null
+        s3MediaObject:
+            adapter: 'asyncaws'
+            options:
+                client: 'digitalocean_spaces_client'
+                bucket: 'create-image-upload'
+        # s3MediaObject:
+        #     adapter: "asyncaws"
+        #     options:
+        #         client: syncAws\S3\S3Client # The service ID of the AsyncAws\S3\S3Client instance
+        #         bucket: "%env(AWS_S3_BUCKET)%"
+        #         prefix: "media_object"
+# read in the bottom
+# https://github.com/thephpleague/flysystem-bundle/blob/3.x/docs/2-cloud-storage-providers.md
+

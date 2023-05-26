@@ -1,0 +1,16 @@
+vich_uploader:
+    db_driver: orm
+    storage: flysystem
+    # metadata:
+    #     type: attribute
+    #     # cache: file
+    #     # auto_detection: true
+    mappings:
+        user_media:
+            uri_prefix: /images
+            upload_destination: s3MediaObject
+            # upload_destination: "%kernel.project_dir%/public/images"
+            # namer: Vich\UploaderBundle\Naming\UniqidNamer
+            # inject_on_load: false
+            # delete_on_update: false
+            # delete_on_remove: false
